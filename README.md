@@ -44,7 +44,7 @@ I'm showing here how different sorting algorithms works in a Rust
             Quick Sort
         </td>
         <td>
-            No
+            Yes
         </td>
     </tr>
 </table>

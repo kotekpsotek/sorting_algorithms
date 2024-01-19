@@ -92,6 +92,47 @@ impl SortShape for MergeSort {
     }
 }
 
+struct QuickSort;
+impl QuickSort {
+    fn quick_sort(slice: &mut [i32]) -> Vec<i32> {
+        if !slice.is_empty() {
+            let partition_index = Self::partition(slice);
+            let len = slice.len();
+    
+            Self::quick_sort(&mut slice[0..partition_index]);
+            Self::quick_sort(&mut slice[partition_index + 1..len]);
+            Self::assert_sorted(slice);
+        }
+
+        slice.to_vec()
+    }
+    
+    fn partition(slice: &mut [i32]) -> usize {
+        let len = slice.len();
+        let pivot = slice[len - 1];
+        let mut i = 0;
+        let mut j = 0;
+    
+        while j < len - 1 {
+            if slice[j] <= pivot {
+                slice.swap(i, j);
+                i += 1;
+            }
+            j += 1;
+        }
+    
+        slice.swap(i, len - 1);
+    
+        i
+    }
+    
+    fn assert_sorted(slice: &[i32]) {
+        for i in 1..slice.len() {
+            assert!(slice[i - 1] <= slice[i])
+        }
+    }
+}
+
 fn main() {
     let arr = vec![255, 34, 12, 1, 10];
     let selection_sort = SelectionSort::sort(arr);
@@ -100,7 +141,7 @@ fn main() {
 
 #[cfg(test)]
 mod test {
-    use crate::{BubbleSort, SortShape, InsertionSort};
+    use crate::{BubbleSort, SortShape, InsertionSort, QuickSort};
 
 
     #[test]
@@ -122,5 +163,12 @@ mod test {
         let arr = vec![12, 11, 13, 5, 6];
         let merge_sort = InsertionSort::sort(arr);
         println!("Merge Sort {merge_sort:?}")
+    }
+
+    #[test]
+    fn quick_sort() {
+        let mut arr = vec![12, 11, 13, 5, 6];
+        let quick_sort = QuickSort::quick_sort(&mut arr);
+        println!("Quick Sort {quick_sort:?}")
     }
 }
