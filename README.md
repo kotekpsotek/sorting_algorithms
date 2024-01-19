@@ -28,7 +28,7 @@ I'm showing here how different sorting algorithms works in a Rust
             Insertion Sort
         </td>
         <td>
-            No
+            Yes
         </td>
     </tr>
     <tr>

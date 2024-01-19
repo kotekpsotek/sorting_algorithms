@@ -53,6 +53,22 @@ impl SortShape for BubbleSort {
     }
 }
 
+struct InsertionSort;
+impl SortShape for InsertionSort {
+    fn sort(mut list: Vec<u32>) -> Vec<u32> {
+        for i in 1..list.len() {
+            // Move one greater key one position ahead
+            let mut j = i;
+            while j > 0 && list[j] < list[j - 1] {
+                list.swap(j, j - 1);
+                j -= 1;
+            }
+        }
+
+        list
+    }
+}
+
 fn main() {
     let arr = vec![255, 34, 12, 1, 10];
     let selection_sort = SelectionSort::sort(arr);
@@ -61,7 +77,7 @@ fn main() {
 
 #[cfg(test)]
 mod test {
-    use crate::{BubbleSort, SortShape};
+    use crate::{BubbleSort, SortShape, InsertionSort};
 
 
     #[test]
@@ -69,5 +85,12 @@ mod test {
         let arr = vec![255, 34, 12, 1, 10];
         let bubble_sort = BubbleSort::sort(arr);
         println!("{bubble_sort:?}")
+    }
+
+    #[test]
+    fn insertion_sort() {
+        let arr = vec![12, 11, 13, 5, 6];
+        let insertion_sort = InsertionSort::sort(arr);
+        println!("Insertion Sort {insertion_sort:?}")
     }
 }
