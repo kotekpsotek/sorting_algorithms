@@ -69,6 +69,29 @@ impl SortShape for InsertionSort {
     }
 }
 
+struct MergeSort;
+impl SortShape for MergeSort {
+    fn sort(mut list: Vec<u32>) -> Vec<u32> {
+        let n = list.len();
+        let m = n / 2;
+     
+        if n <= 1 {
+            return list;
+        }
+     
+        MergeSort::sort(list[0..m].to_vec());
+        MergeSort::sort(list[m..n].to_vec());
+     
+        let y = list.clone();
+     
+        let merge = vec![list[0..m].to_vec(), list[m..n].to_vec(), y[..].to_vec()].concat();
+        MergeSort::sort(merge);
+     
+        list.copy_from_slice(&y);
+        list
+    }
+}
+
 fn main() {
     let arr = vec![255, 34, 12, 1, 10];
     let selection_sort = SelectionSort::sort(arr);
@@ -92,5 +115,12 @@ mod test {
         let arr = vec![12, 11, 13, 5, 6];
         let insertion_sort = InsertionSort::sort(arr);
         println!("Insertion Sort {insertion_sort:?}")
+    }
+
+    #[test]
+    fn merge_sort() {
+        let arr = vec![12, 11, 13, 5, 6];
+        let merge_sort = InsertionSort::sort(arr);
+        println!("Merge Sort {merge_sort:?}")
     }
 }
